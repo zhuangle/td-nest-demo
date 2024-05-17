@@ -5,13 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {Employee} from './entities/employee.entity'
 
-interface Response<T> {
-  code: number,
-  message: string,
-  data: T,
-  count: number,
-  success: boolean
-}
 
 @Injectable()
 export class EmployeeService {
@@ -20,7 +13,7 @@ export class EmployeeService {
     private readonly employeeRepository: Repository<Employee>
   ){}
 
-  async getMeployeeList(param:any):Promise<Response<any>> {
+  async getMeployeeList(param:any):Promise<any> {
     const data:Employee[] = await this.employeeRepository.find() 
     
     return {
