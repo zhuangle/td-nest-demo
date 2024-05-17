@@ -53,4 +53,13 @@ export class EmployeeService {
       success: true
     }
   }
+  resetEmployeePassword(params: any){
+    console.log('params',params);
+    return {
+      code: 0,
+      data: {},
+      message: "重置密码成功",
+      success: true
+    }
+  }
 }

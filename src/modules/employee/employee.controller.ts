@@ -51,4 +51,14 @@ export class EmployeeController {
   deleteEmployee(@Body() params: DeleteEmployeeDto){
     return this.employeeService.deleteEmployee(params)
   }
+
+  @Put("resetEmployeePassword")
+  @ApiOperation({
+    tags: ['重置员工密码'],
+    summary: "重置员工密码",
+    description:"重置员工密码"
+  })
+  resetEmployeePassword (@Body() body:any){
+    return this.employeeService.resetEmployeePassword(body)
+  }
 }
