@@ -20,6 +20,11 @@ export class Employee {
   @Column()
   phone: string
 
+  @Column({
+    default: '123456'
+  })
+  password?: string
+
   @Column()
   roleId: number
 
@@ -27,8 +32,8 @@ export class Employee {
   state: number
 
   @Column()
-  createTime: string
+  createTime?: Date
 
   @Column()
-  updateTime: string
+  updateTime: Date
 }
