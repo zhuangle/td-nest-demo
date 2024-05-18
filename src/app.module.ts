@@ -1,8 +1,11 @@
+import { Department } from './modules/department/entities/department.entity';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { EmployeeModule } from './modules/employee/employee.module';
+import { DepartmentModule } from './modules/department/department.module';
+import { RoleModule } from './modules/role/role.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -23,7 +26,7 @@ const typeorm = TypeOrmModule.forRoot({
 })
 
 @Module({
-  imports: [typeorm, AuthModule, EmployeeModule],
+  imports: [ typeorm, AuthModule, EmployeeModule, RoleModule, DepartmentModule ],
   controllers: [AppController],
   providers: [AppService],
 })

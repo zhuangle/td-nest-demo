@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm'
+import {Role} from '../../role/entities/role.entity'
 
 @Entity()
 export class Employee {
@@ -36,4 +37,7 @@ export class Employee {
 
   @Column()
   updateTime: Date
+
+  @OneToOne(()=> Role, (roles)=> roles.id)
+  roles: Role
 }

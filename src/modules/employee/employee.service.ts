@@ -43,7 +43,8 @@ export class EmployeeService {
       skip: (current - 1) * pageSize,
       take: pageSize,
       order: {
-        id: "DESC"
+        // id: "DESC"
+        id: "ASC"
       }
     }) 
     
