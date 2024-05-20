@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDepartmentDto } from './dto/create-department.dto';
-import { UpdateDepartmentDto } from './dto/update-department.dto';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Department } from './entities/department.entity';
+import { Repository } from 'typeorm';
 @Injectable()
 export class DepartmentService {
-  create(createDepartmentDto: CreateDepartmentDto) {
-    return 'This action adds a new department';
-  }
+  constructor(
+    @InjectRepository(Department)
+    private readonly roleRepository: Repository<Department>
+  ){}
+  async findAll(param?: any) {
+    let query = {}
+    if(param){
+      const {id, name} = param
+      let queryParams = {
+        id: null,
+        name: null
+      }
+      if(id){
+        queryParams.id = id
+      }
+      if(name){
+        queryParams.name = name
+      }
+      query = {
+        where: queryParams
+      }
+    }
+    
+    const total = await this.roleRepository.count(query)
+    const res = await this.roleRepository.find(query)
 
-  findAll() {
-    return `This action returns all department`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} department`;
-  }
-
-  update(id: number, updateDepartmentDto: UpdateDepartmentDto) {
-    return `This action updates a #${id} department`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} department`;
+    return {
+      code: 0,
+      data: res,
+      count: total,
+      message: "获取机构列表成功",
+      success: true
+    };;
   }
 }

@@ -20,16 +20,29 @@ export class EmployeeController {
   getMeployeeList(@Body() body:any) {
     return this.employeeService.getMeployeeList(body);
   }
-    // 更新员工
-    @Post('update')
-    @ApiOperation({
-      tags: ['更新员工'],
-      summary: "更新员工",
-      description:"更新员工"
-    })
-    UpdateEmployee(@Body() updateEmployeeDto: UpdateEmployeeDto){
-      return this.employeeService.UpdateEmployee(updateEmployeeDto);
-    }
+
+  // 更新员工
+  @Post('update')
+  @ApiOperation({
+    tags: ['更新员工'],
+    summary: "更新员工",
+    description:"更新员工"
+  })
+  UpdateEmployee(@Body() updateEmployeeDto: UpdateEmployeeDto){
+    return this.employeeService.UpdateEmployee(updateEmployeeDto);
+  }
+
+  // 新增时获取可用员工账号employeeCode
+  @Get('avaliableEmployeeCode')
+  @ApiOperation({
+    tags: ['新增时获取可用工号employeeCode'],
+    summary: "新增时获取可用工号employeeCode",
+    description:"新增时获取可用工号employeeCode"
+  })
+  getEmployeeCode() {
+    return this.employeeService.getAvaliableEmployeeCode();
+  }
+
   // 获取员工详情
   @Get(':id')
   @ApiOperation({

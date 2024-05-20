@@ -6,14 +6,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository, QueryFailedError } from 'typeorm';
 import { Employee } from './entities/employee.entity'
 
-
 @Injectable()
 export class EmployeeService {
   constructor(
     @InjectRepository(Employee)
     private readonly employeeRepository: Repository<Employee>
-  ) { }
+  ) {}
 
+  // 获取员工列表
   async getMeployeeList(param: any): Promise<any> {
     try {
       const { employeeCode, state, name,phone, roleId, page } = param
@@ -35,7 +35,7 @@ export class EmployeeService {
         queryParams.name = Like(`%${name}%`)
       }
       if(phone){
-        queryParams.phone = Like(`${name}%`)
+        queryParams.phone = Like(`%${phone}`)
       }
       if (roleId) {
         queryParams = { ...queryParams, roleId }
@@ -77,6 +77,37 @@ export class EmployeeService {
     }
   }
 
+  // 获取可用员工编号
+  async getAvaliableEmployeeCode(): Promise<any> {
+    let code = ""
+    // const isCodeUnique = await 
+    // const res = await this.employeeRepository.find()
+    return {
+      code: 0,
+      data: {
+        employeeCode: "1099"
+      },
+      message: "获取可用员工编号成功",
+      success: true
+    }
+  }
+  // // 校验工号是否空闲
+  // private async isEmployeeCodeUnique(code: string):Promise<boolean> {
+  //   const existingEmployee = await this.employeeRepository.findOne({
+  //     where:{
+  //       employeeCode: code
+  //     }
+  //   })
+
+  //   return existingEmployee? true : false
+  // }
+  // // 生成工号
+  // private async genrateCode():Promise<string>{
+
+  //   return "1234"
+  // }
+
+  // 获取员工信息
   async getEmployeeInfo(id: number) {
     console.log('getEmployeeInfo id', id);
     return {
@@ -87,6 +118,7 @@ export class EmployeeService {
     }
   }
 
+  // 更新员工信息
   async UpdateEmployee(updateEmployeeDto: UpdateEmployeeDto) {
     try {
       console.log('updateEmployeeDto', updateEmployeeDto.id, updateEmployeeDto);
@@ -119,6 +151,8 @@ export class EmployeeService {
       throw error;
     }
   }
+
+  // 删除员工
   async deleteEmployee(deleteEmployeeDto: DeleteEmployeeDto) {
     console.log('deleteEmployeeDto', deleteEmployeeDto);
     const res = await this.employeeRepository.delete(deleteEmployeeDto[0])
@@ -130,6 +164,8 @@ export class EmployeeService {
       success: true
     }
   }
+
+  // 重置密码
   async resetEmployeePassword(params: any) {
     console.log('params', params);
     return {
