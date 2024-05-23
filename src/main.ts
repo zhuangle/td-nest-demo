@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cors from 'cors';
 import { ApiConfigService } from './shared/services/api-config.service';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 import { setupSwagger } from './setup-swagger';
 
 
 async function bootstrap() {
+  initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
 
   // app.use(cors())

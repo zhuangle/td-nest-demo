@@ -20,10 +20,32 @@ export class  ApiConfigService {
     return this.nodeEnv === 'test';
   }
 
-  get MysqlConfig(): TypeOrmModuleOptions{
+  get mysqlConfig(): TypeOrmModuleOptions{
+    // '/modules/**/*.entity{.ts, .js}'
+    const entities = [
+      // __dirname + '/../../modules/**/*.entity{.ts,.js}',
+      __dirname + '/../../modules/employee/entities/employee.entity.ts',
+      __dirname + '/../../modules/**/*.view-entity{.ts,.js}',
+    ];
+    console.log('entities',entities);
 
-
-    return {}
+    return {
+      entities,
+      // migrations,
+      keepConnectionAlive: !this.isTest,
+      dropSchema: this.isTest,
+      type: 'mysql',
+      name: "default",
+      host: this.getString('DB_HOST'),
+      port: this.getNumber('DB_PORT'),
+      username: this.getString('DB_USERNAME'),
+      password: this.getString('DB_PASSWORD'),
+      database: this.getString('DB_DATABASE'),
+      // subscribers: [UserSubscriber],
+      // migrationsRun: true,
+      logging: this.getBoolean('ENABLE_ORM_LOGS'),
+      // namingStrategy: new SnakeNamingStrategy(),
+    }
   }
 
   get nodeEnv(): string {
