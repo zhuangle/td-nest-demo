@@ -11,10 +11,24 @@ import { DataSource } from 'typeorm';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
-
+const typeorm = TypeOrmModule.forRoot({
+  type: 'mysql',
+  username: "root",
+  password: "safdsadfsadfpw.o3i4rkp23jrlwkejrlz",
+  host: "localhost",
+  port: 3306,
+  database: "td-demo",
+  // entities: [__dirname + '/**/*.entity{.ts, .js}'],
+  entities: [__dirname + '/modules/**/*.entity{.ts, .js}'],
+  synchronize: true,
+  retryDelay: 500,
+  retryAttempts: 10,
+  autoLoadEntities: true
+})
 
 @Module({
   imports: [ 
+    typeorm,
     AuthModule, 
     EmployeeModule,
     RoleModule, 
@@ -22,22 +36,6 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [SharedModule],
-      useFactory: (configService: ApiConfigService) => {
-        console.log('configService.mysqlConfig',configService.mysqlConfig);
-        return configService.mysqlConfig
-      },
-      inject: [ApiConfigService],
-      dataSourceFactory: (options) => {
-        if (!options) {
-          throw new Error('Invalid options passed');
-        }
-        return Promise.resolve(
-          addTransactionalDataSource(new DataSource(options)),
-        );
-      },
     }),
   ],
   controllers: [],

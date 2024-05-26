@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { isNil } from 'lodash';
-import { default as parse, type Units } from 'parse-duration';
+// import { default as parse, type Units } from 'parse-duration';
 import { ConfigService } from "@nestjs/config";
 import { type TypeOrmModuleOptions } from '@nestjs/typeorm';
 
@@ -21,17 +21,15 @@ export class  ApiConfigService {
   }
 
   get mysqlConfig(): TypeOrmModuleOptions{
-    // '/modules/**/*.entity{.ts, .js}'
     const entities = [
-      // __dirname + '/../../modules/**/*.entity{.ts,.js}',
-      __dirname + '/../../modules/employee/entities/employee.entity.ts',
+      __dirname + '/../../modules/**/*.entity{.ts,.js}',
       __dirname + '/../../modules/**/*.view-entity{.ts,.js}',
     ];
-    console.log('entities',entities);
+    const migrations = [__dirname + '/../../database/migrations/*{.ts,.js}'];
 
     return {
       entities,
-      // migrations,
+      migrations,
       keepConnectionAlive: !this.isTest,
       dropSchema: this.isTest,
       type: 'mysql',
@@ -80,16 +78,16 @@ export class  ApiConfigService {
     }
   }
 
-  private getDuration(key: string, format?: Units): number {
-    const value = this.getString(key);
-    const duration = parse(value, format);
+  // private getDuration(key: string, format?: Units): number {
+  //   const value = this.getString(key);
+  //   const duration = parse(value, format);
 
-    if (duration === undefined) {
-      throw new Error(`${key} environment variable is not a valid duration`);
-    }
+  //   if (duration === undefined) {
+  //     throw new Error(`${key} environment variable is not a valid duration`);
+  //   }
 
-    return duration;
-  }
+  //   return duration;
+  // }
   
   private getNumber(key: string): number {
     const value = this.get(key);
